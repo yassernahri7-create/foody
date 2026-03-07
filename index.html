@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlRoot">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foody – Commandez en ligne</title>
+  <meta name="description"
+    content="Foody – Commandez vos sandwichs, tacos, burgers en ligne. Livraison via WhatsApp!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div class="lang-selector">
+        <button class="lang-btn active-lang" onclick="setLang('fr',this)">FR FR</button>
+        <button class="lang-btn" onclick="setLang('en',this)">GB EN</button>
+        <button class="lang-btn" onclick="setLang('ar',this)">MA AR</button>
+      </div>
+      <div class="status-badge" id="statusBadge">
+        <span class="status-dot"></span>
+        <span class="status-text" id="statusText" data-i18n="status_loading">Chargement...</span>
+      </div>
+      <div class="top-contact">
+        <span>📞 05393-007 07</span>
+        <span>📍 Tanger, Morocco</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <div class="logo">🍔 <span>Foody</span></div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+      <nav class="header-nav" id="headerNav">
+        <a href="#heroSlider" class="nav-link active-link" data-i18n="nav_home">Accueil</a>
+        <a href="#menu-area" class="nav-link" data-i18n="nav_menu">Menu</a>
+        <a href="#about" class="nav-link" data-i18n="nav_about">À Propos</a>
+        <a href="#events" class="nav-link" data-i18n="nav_events">Événements</a>
+        <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
+        <a href="#hours" class="nav-link" data-i18n="nav_hours">Horaires</a>
+      </nav>
+      <div class="header-actions">
+        <button class="order-btn" onclick="document.getElementById('menu-area').scrollIntoView({behavior:'smooth'})"
+          data-i18n="nav_order">COMMANDER</button>
+        <a href="https://maps.google.com" target="_blank" class="dir-btn" data-i18n="nav_directions">ITINÉRAIRE</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SLIDER -->
+  <section class="hero-slider" id="heroSlider">
+    <div class="slide slide-active" id="slide1">
+      <div class="slide-content">
+        <p class="slide-sub" data-i18n="hero_sub1">Préparez-vous pour</p>
+        <h1 class="slide-title">BIG <span>TASTE.</span></h1>
+        <button class="slide-cta" onclick="document.getElementById('menu-area').scrollIntoView({behavior:'smooth'})"
+          data-i18n="hero_cta">COMMANDER EN LIGNE</button>
+      </div>
+      <div class="slide-img"><img src="images/hero_burger.png" alt="Delicious Burger" /></div>
+    </div>
+    <div class="slide" id="slide2">
+      <div class="slide-content">
+        <p class="slide-sub">🇲🇦 <span data-i18n="hero_sub2">Essayez Notre</span></p>
+        <h1 class="slide-title">KING SIZE <span>MEAL</span></h1>
+        <p class="slide-desc" data-i18n="hero_desc2">Frites & Boisson inclus</p>
+        <button class="slide-cta" onclick="document.getElementById('menu-area').scrollIntoView({behavior:'smooth'})"
+          data-i18n="hero_cta">COMMANDER EN LIGNE</button>
+      </div>
+      <div class="slide-img"><img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&q=80"
+          alt="Tacos" /></div>
+    </div>
+    <div class="slide" id="slide3">
+      <div class="slide-content">
+        <p class="slide-sub">🔥 <span data-i18n="hero_sub3">Frais Chaque Jour</span></p>
+        <h1 class="slide-title">SUPER <span>CRISPY</span></h1>
+        <p class="slide-desc" data-i18n="hero_desc3">Sandwichs, Paninis & plus</p>
+        <button class="slide-cta" onclick="document.getElementById('menu-area').scrollIntoView({behavior:'smooth'})"
+          data-i18n="hero_cta">COMMANDER EN LIGNE</button>
+      </div>
+      <div class="slide-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&q=80"
+          alt="Panini sandwich" /></div>
+    </div>
+    <div class="slide-dots">
+      <button class="dot dot-active" onclick="goSlide(0)"></button>
+      <button class="dot" onclick="goSlide(1)"></button>
+      <button class="dot" onclick="goSlide(2)"></button>
+    </div>
+  </section>
+
+  <!-- SIDE FLOATING MENU (Mobile specific placement) -->
+  <div class="side-nav">
+    <button class="side-btn" onclick="document.getElementById('menu-area').scrollIntoView({behavior:'smooth'})"
+      id="side-menu-btn">
+      <span class="side-btn-text" data-i18n="side_menu">MENU</span>
+    </button>
+    <button class="side-btn" onclick="openWifiModal()">
+      <span class="side-btn-text" data-i18n="side_wifi">CODE WIFI</span>
+    </button>
+    <button class="side-btn" onclick="openSocialModal()">
+      <span class="side-btn-text">SOCIAL</span>
+    </button>
+  </div>
+
+  <!-- PROMO OF THE DAY -->
+  <section class="promo-section" id="promo-section" style="display:none">
+    <div class="promo-inner">
+      <div class="promo-badge" data-i18n="promo_badge">PROMO DU JOUR</div>
+      <div class="promo-content">
+        <div class="promo-visual">
+          <img id="promo-item-img" src="" alt="Promo Item" />
+          <div class="promo-glow"></div>
+        </div>
+        <div class="promo-text">
+          <h2 id="promo-item-name">Menu Nom</h2>
+          <div class="promo-price" id="promo-item-price">MAD 0.00</div>
+          <button class="promo-cta" id="promo-item-cta" data-i18n="promo_add">AJOUTER AU PANIER</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY NAV -->
+  <div id="menu-area"></div>
+  <nav class="cat-nav" id="catNav">
+    <div class="cat-nav-inner">
+      <div class="icon-btn-row">
+        <button class="icon-btn" onclick="toggleSearch()">🔍</button>
+        <button class="icon-btn" onclick="toggleDropdown()">☰</button>
+      </div>
+      <div class="cat-scroll" id="catScroll"></div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" id="searchInput" placeholder="Rechercher un produit..." oninput="searchProducts(this.value)" />
+      <button class="search-close" onclick="toggleSearch()">✕</button>
+    </div>
+    <div class="dropdown-bg" id="dropdownBg" onclick="toggleDropdown()"></div>
+    <div class="dropdown-menu" id="dropdownMenu"></div>
+  </nav>
+
+  <!-- MENU -->
+  <main class="menu-wrap" id="menuWrap"></main>
+
+  <!-- STICKY BOTTOM BAR -->
+  <div class="bottom-bar" id="bottomBar" style="display:none">
+    <div class="bottom-bar-inner">
+      <div class="bottom-info">
+        <span id="bottomCount">0 product</span>
+        <strong id="bottomTotal">MAD 0,00</strong>
+      </div>
+      <button class="bottom-btn" onclick="openConfirm()" data-i18n="see_order">Voir ma commande</button>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT US ===== -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <div class="about-header">
+        <p class="section-tag" data-i18n="about_tag">Notre Histoire</p>
+        <h2 class="section-title" data-i18n="about_title">À Propos de <span>Foody</span></h2>
+        <div class="title-line"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <h3 class="about-subtitle">Foody</h3>
+          <h4 class="about-tagline" data-i18n="about_tagline">Burgers, Tacos & Plus Encore</h4>
+          <p data-i18n="about_p1">Chers invités, notre histoire commence dans les ruelles vibrantes de Tanger.
+            Passionnés par la cuisine de rue authentique, nous avons voulu créer un lieu où chaque bouchée raconte une
+            histoire de saveur, de fraîcheur et d'amour.</p>
+          <p data-i18n="about_p2">Depuis notre humble début, nous avons toujours cru que la meilleure nourriture est
+            celle préparée avec les ingrédients les plus frais, des recettes halal authentiques, et surtout, beaucoup de
+            passion. Chaque sandwich, chaque tacos, chaque burger est préparé à la commande avec le même soin que nous
+            mettrions pour notre propre famille.</p>
+          <p data-i18n="about_p3">Notre mission est simple : vous offrir la meilleure qualité, un service exceptionnel,
+            et une expérience culinaire inoubliable. Nous vous accueillons comme notre invité et nous vous invitons à
+            partager cette aventure avec vos proches.</p>
+          <div class="about-signature">
+            <p class="sig-welcome" data-i18n="about_welcome">Bienvenue, revenez nous voir !</p>
+            <p class="sig-thanks" data-i18n="about_thanks">Merci,</p>
+            <p class="sig-name">— L'équipe Foody 🍔</p>
+          </div>
+        </div>
+        <div class="about-visual">
+          <div class="about-card card-1">
+            <div class="card-number">15+</div>
+            <div class="card-label" data-i18n="about_years">Ans d'Expérience</div>
+          </div>
+          <div class="about-card card-2">
+            <div class="card-number">40+</div>
+            <div class="card-label" data-i18n="about_items">Plats au Menu</div>
+          </div>
+          <div class="about-card card-3">
+            <div class="card-number">100%</div>
+            <div class="card-label" data-i18n="about_halal">Halal & Frais</div>
+          </div>
+          <div class="about-card card-4">
+            <div class="card-number">⭐ 4.8</div>
+            <div class="card-label" data-i18n="about_rating">Avis Clients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EVENTS ===== -->
+  <section class="events-section" id="events">
+    <div class="events-inner">
+      <div class="about-header">
+        <p class="section-tag" data-i18n="events_tag">Célébrez avec nous</p>
+        <h2 class="section-title" data-i18n="events_title">Événements <span>Privés</span></h2>
+        <div class="title-line"></div>
+      </div>
+      <div class="events-grid">
+        <div class="event-card">
+          <div class="event-icon">🎂</div>
+          <h3 data-i18n="event_birthday">Anniversaires</h3>
+          <p data-i18n="event_birthday_desc">Célébrez votre jour spécial avec un menu personnalisé et une ambiance
+            festive.</p>
+        </div>
+        <div class="event-card">
+          <div class="event-icon">👨‍👩‍👧‍👦</div>
+          <h3 data-i18n="event_family">Réunions Familiales</h3>
+          <p data-i18n="event_family_desc">Un espace chaleureux pour réunir votre famille autour de plats délicieux.</p>
+        </div>
+        <div class="event-card">
+          <div class="event-icon">🏢</div>
+          <h3 data-i18n="event_corporate">Événements Corporate</h3>
+          <p data-i18n="event_corporate_desc">Impressionnez vos collègues avec un traiteur professionnel et savoureux.
+          </p>
+        </div>
+        <div class="event-card">
+          <div class="event-icon">🎉</div>
+          <h3 data-i18n="event_party">Fêtes Privées</h3>
+          <p data-i18n="event_party_desc">Louez notre espace pour une soirée inoubliable avec vos amis.</p>
+        </div>
+      </div>
+      <div class="events-cta">
+        <p data-i18n="events_cta_text">Intéressé par un événement ? Contactez-nous !</p>
+        <a href="https://wa.me/212626081745" target="_blank" class="events-btn" data-i18n="events_cta_btn"
+          id="eventWALink">📩 Demander
+          un Devis</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== OPENING HOURS ===== -->
+  <section class="hours-section" id="hours">
+    <div class="hours-inner">
+      <div class="about-header">
+        <p class="section-tag" data-i18n="hours_tag">Quand nous visiter</p>
+        <h2 class="section-title" data-i18n="hours_title">Horaires <span>d'Ouverture</span></h2>
+        <div class="title-line"></div>
+      </div>
+      <div class="hours-card">
+        <div class="hours-clock">🕐</div>
+        <div class="hours-grid">
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="day_mon">Lundi</span>
+            <span class="hours-dash"></span>
+            <span class="hours-time">11:00 – 23:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="day_tue">Mardi</span>
+            <span class="hours-dash"></span>
+            <span class="hours-time">11:00 – 23:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="day_wed">Mercredi</span>
+            <span class="hours-dash"></span>
+            <span class="hours-time">11:00 – 23:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="day_thu">Jeudi</span>
+            <span class="hours-dash"></span>
+            <span class="hours-time">11:00 – 23:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="day_fri">Vendredi</span>
+            <span class="hours-dash"></span>
+            <span class="hours-time">11:00 – 00:00</span>
+          </div>
+          <div class="hours-row highlight-row">
+            <span class="hours-day" data-i18n="day_sat">Samedi</span>
+            <span class="hours-dash"></span>
+            <span class="hours-time">11:00 – 00:00</span>
+          </div>
+          <div class="hours-row highlight-row">
+            <span class="hours-day" data-i18n="day_sun">Dimanche</span>
+            <span class="hours-dash"></span>
+            <span class="hours-time">12:00 – 23:00</span>
+          </div>
+        </div>
+        <div class="hours-note" data-i18n="hours_note">🔥 Ouvert tous les jours ! Livraison disponible.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div class="about-header">
+        <p class="section-tag" data-i18n="contact_tag">Venez Manger</p>
+        <h2 class="section-title" data-i18n="contact_title">Contactez-<span>Nous</span></h2>
+        <div class="title-line"></div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">📍</div>
+          <h3 data-i18n="contact_address_title">Adresse</h3>
+          <p>Avenue Mohammed VI, Tanger 90000, Maroc</p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+          <h3 data-i18n="contact_phone_title">Téléphone</h3>
+          <p><a href="tel:05393-007 07">05393-007 07</a></p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">💬</div>
+          <h3>WhatsApp</h3>
+          <p><a href="https://wa.me/212626081745" target="_blank" id="contactWALink">+212 626 081 745</a></p>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-btn">📸 Instagram</a>
+        <a href="#" class="social-btn">📘 Facebook</a>
+        <a href="#" class="social-btn">⭐ TripAdvisor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER CONFIRMATION PAGE -->
+  <div class="confirm-overlay" id="confirmOverlay" onclick="closeConfirm()"></div>
+  <div class="confirm-page" id="confirmPage">
+    <div class="confirm-top">
+      <button class="confirm-back" onclick="closeConfirm()">← Back</button>
+      <div class="confirm-cart-info">Your cart <strong id="confirmTotal">MAD 0</strong></div>
+    </div>
+    <div class="confirm-items" id="confirmItems"></div>
+    <div class="complement-section" id="complementSection">
+      <h3>Complement your order</h3>
+      <div class="complement-scroll" id="complementScroll"></div>
+    </div>
+    <div class="service-section">
+      <p>Select the type of service:</p>
+      <div class="service-btns">
+        <button class="svc-btn active" data-svc="onsite" onclick="selectService('onsite',this)">🍽️ On Site</button>
+        <button class="svc-btn" data-svc="takeaway" onclick="selectService('takeaway',this)">🛍️ Take Away</button>
+        <button class="svc-btn" data-svc="delivery" onclick="selectService('delivery',this)">🚚 Delivery</button>
+      </div>
+      <div class="delivery-fields" id="deliveryFields" style="display:none">
+        <input id="cName" placeholder="Votre nom..." class="cf-input" />
+        <input id="cAddr" placeholder="Adresse de livraison..." class="cf-input" />
+        <input id="cPhone" placeholder="Numéro de téléphone..." class="cf-input" />
+      </div>
+    </div>
+    <div class="confirm-footer">
+      <button class="wa-btn" onclick="sendWA()">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+          <path
+            d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.533 5.859L.057 23.743a.75.75 0 0 0 .943.882l6.066-1.587A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.694-.498-5.25-1.369L2.5 21.75l1.133-4.146A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+        </svg>
+        Confirmer sur WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">🍔 <strong>Foody</strong></div>
+      <p>Avenue Mohammed VI, Tanger 90000, Maroc</p>
+      <div class="footer-social" id="footerSocial"></div>
+      <p class="footer-copy">© 2026 Foody — Tous droits réservés.</p>
+      <div style="margin-top:20px; font-size: 0.7rem; opacity: 0.5;">
+        <a href="admin.html" style="color:#fff; text-decoration:none;">Admin Panel</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WIFI MODAL -->
+  <div class="wifi-overlay" id="wifiOverlay" onclick="closeWifiModal()"></div>
+  <div class="wifi-modal-card" id="wifiModal">
+    <button class="wifi-modal-close" onclick="closeWifiModal()">✕</button>
+    <div class="wifi-modal-content">
+      <div class="wifi-modal-icon">📶</div>
+      <h2 data-i18n="wifi_title">WiFi Gratuit</h2>
+      <div class="wifi-modal-box">
+        <p id="wifiSSIDDisplay"><strong>SSID:</strong> <span>Chargement...</span></p>
+        <p><strong>Password:</strong> <code id="wifiPass">...</code> <button class="copy-wifi-btn"
+            onclick="copyWifi()">📋</button></p>
+      </div>
+      <div class="qr-container">
+        <img id="wifiQR" src="" alt="WiFi QR Code" />
+        <p class="qr-hint" data-i18n="wifi_scan">Scannez pour vous connecter</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL MODAL -->
+  <div class="social-overlay" id="socialOverlay" onclick="closeSocialModal()"></div>
+  <div class="social-modal-card" id="socialModal">
+    <button class="social-modal-close" onclick="closeSocialModal()">✕</button>
+    <div class="social-modal-content">
+      <div class="social-modal-icon">📱</div>
+      <h2 data-i18n="social_title">Suivez-nous</h2>
+      <div class="social-modal-list" id="modalSocialList">
+        <!-- Social links will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div class="product-overlay" id="productOverlay" onclick="closeProductModal()"></div>
+  <div class="product-modal" id="productModal">
+    <button class="product-modal-close" onclick="closeProductModal()">✕</button>
+    <div class="product-modal-grid">
+      <div class="product-modal-gallery">
+        <div class="main-img-wrap">
+          <img id="mainDetailImg" src="" alt="Product" />
+        </div>
+        <div class="thumb-strip" id="thumbStrip"></div>
+      </div>
+      <div class="product-modal-info">
+        <h2 id="detailName">Nom du Produit</h2>
+        <p class="detail-desc" id="detailDesc">Description courte...</p>
+        <div class="detail-price" id="detailPrice">MAD 0.00</div>
+
+        <div class="detail-ingredients" id="detailIngredientsWrap">
+          <h3 data-i18n="ingredients_label">Ingrédients</h3>
+          <ul id="detailIngredientsList"></ul>
+        </div>
+
+        <button class="detail-add-btn" id="detailAddBtn">
+          <span data-i18n="add_to_cart">AJOUTER AU PANIER</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
